@@ -1,0 +1,110 @@
+<html>
+<head>
+  <title>Login Page</title><style>
+   body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      width: 350px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .main {
+      text-align: center;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    .form-input {
+      width: calc(100% - 20px);
+      height: 30px;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    
+    .form-input:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 10px rgba(0, 128, 0, 0.3);
+    }
+    
+    .submit-button {
+      width: calc(100% - 20px);
+      height: 40px;
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      box-sizing: border-box;
+    }
+    
+    .submit-button:hover {
+      background-color: #45a049;
+    }
+    
+    #login-error-msg {
+      display: none;
+      color: #FF0000;
+      font-size: 14px;
+      margin-top: 10px;
+    }</style> 
+</head>
+<body>
+  <div class="container">
+    <div class="main">
+      <h2>Login Form</h2>
+      <form id="form_id" method="post" name="myform">
+        <label>User Name :</label>
+        <input type="text" name="username" id="username"/>
+        <label>Password :</label>
+        <input type="password" name="password" id="password"/>
+        <input type="button" value="Login" id="submit" onclick="validate()"/>
+        <span id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
+      </form>
+    </div>
+  </div>
+  <script >
+  var attempt = 999; // Variable to count number of attempts.
+
+function validate(){
+  var username = document.getElementById("username").value;
+  var password = document.getElementById("password").value;
+  
+  if ( username == "Formget" && password == "formget#123"){
+    alert ("Login successfully");
+    window.location = "success.html"; // Redirecting to other page.
+    return false;
+  } else {
+    attempt --; // Decrementing by one.
+    alert("You have left "+attempt+" attempt;");
+    
+    // Disabling fields after 3 attempts.
+    if( attempt == 0){
+      document.getElementById("username").disabled = true;
+      document.getElementById("password").disabled = true;
+      document.getElementById("submit").disabled = true;
+      return false;
+    }
+  }
+}
+  </script>
+</body>
+</html>
