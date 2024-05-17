@@ -1,18 +1,24 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Login Page</title><style>
-   body {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      background-color: #000;
       margin: 0;
       padding: 0;
+      overflow: hidden;
     }
     
     .container {
+      position: relative;
       width: 350px;
       margin: 100px auto;
       padding: 20px;
-      background-color: #fff;
+      background-color: rgba(0, 0, 0, 0.6);
       border: 1px solid #ddd;
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -25,6 +31,7 @@
     .form-label {
       display: block;
       margin-bottom: 10px;
+      color: #fff;
     }
     
     .form-input {
@@ -35,6 +42,7 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       box-sizing: border-box;
+      background-color: rgba(255, 255, 255, 0.8);
     }
     
     .form-input:focus {
@@ -65,46 +73,122 @@
       color: #FF0000;
       font-size: 14px;
       margin-top: 10px;
-    }</style> 
+    }
+
+    /* Animation for green lines */
+    @keyframes greenLines {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .green-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .green-line {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background-color: #4CAF50;
+      animation: greenLines 10s linear infinite;
+    }
+
+    .green-line:nth-child(1) {
+      top: 10%;
+    }
+
+    .green-line:nth-child(2) {
+      top: 25%;
+      animation-delay: 1s;
+    }
+
+    .green-line:nth-child(3) {
+      top: 40%;
+      animation-delay: 2s;
+    }
+
+    .green-line:nth-child(4) {
+      top: 55%;
+      animation-delay: 3s;
+    }
+
+    .green-line:nth-child(5) {
+      top: 70%;
+      animation-delay: 4s;
+    }
+
+    .green-line:nth-child(6) {
+      top: 85%;
+      animation-delay: 5s;
+    }
+  </style>
 </head>
 <body>
+  <!-- Green lines animation -->
+  <div class="green-lines">
+    <div class="green-line"></div>
+    <div class="green-line"></div>
+    <div class="green-line"></div>
+    <div class="green-line"></div>
+    <div class="green-line"></div>
+    <div class="green-line"></div>
+  </div>
+
+  <!-- Login form container -->
   <div class="container">
     <div class="main">
-      <h2>Login Form</h2>
+      <h2 style="color: #fff;">Login Form</h2>
       <form id="form_id" method="post" name="myform">
-        <label>User Name :</label>
-        <input type="text" name="username" id="username"/>
-        <label>Password :</label>
-        <input type="password" name="password" id="password"/>
-        <input type="button" value="Login" id="submit" onclick="validate()"/>
-        <span id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
+        <label class="form-label">User Name :</label>
+        <input type="text" class="form-input" name="username" id="username"/>
+        <label class="form-label">Password :</label>
+        <input type="password" class="form-input" name="password" id="password"/>
+        <input type="button" class="submit-button" value="Login" id="submit"/>
+        <span id="login-error-msg">Invalid username and/or password. You have 3 attempt(s) left.</span>
       </form>
     </div>
   </div>
-  <script >
-  var attempt = 999; // Variable to count number of attempts.
 
-function validate(){
-  var username = document.getElementById("username").value;
-  var password = document.getElementById("password").value;
-  
-  if ( username == "Formget" && password == "formget#123"){
-    alert ("Login successfully");
-    window.location = "success.html"; // Redirecting to other page.
-    return false;
-  } else {
-    attempt --; // Decrementing by one.
-    alert("You have left "+attempt+" attempt;");
-    
-    // Disabling fields after 3 attempts.
-    if( attempt == 0){
-      document.getElementById("username").disabled = true;
-      document.getElementById("password").disabled = true;
-      document.getElementById("submit").disabled = true;
-      return false;
+  <script>
+    var attempt = 3; // Variable to count number of attempts.
+
+    document.getElementById('submit').addEventListener('click', function() {
+      validate();
+    });
+
+    function validate() {
+      var username = document.getElementById("username").value;
+      var password = document.getElementById("password").value;
+      var errorMsg = document.getElementById("login-error-msg");
+
+      if (username === "Formget" && password === "formget#123") {
+        alert("Login successful");
+        window.location = "success.html"; // Redirecting to other page.
+        return false;
+      } else {
+        attempt--; // Decrementing by one.
+        errorMsg.style.display = "block";
+        errorMsg.textContent = "Invalid username and/or password. You have " + attempt + " attempt(s) left.";
+
+        // Disabling fields after 3 attempts.
+        if (attempt == 0) {
+          document.getElementById("username").disabled = true;
+          document.getElementById("password").disabled = true;
+          document.getElementById("submit").disabled = true;
+          errorMsg.textContent = "You have exceeded the maximum number of login attempts.";
+          return false;
+        }
+      }
     }
-  }
-}
   </script>
 </body>
 </html>
